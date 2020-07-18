@@ -189,13 +189,13 @@ print("\nSaved to " + writefile)
 
 
 if "-r1" in sys.argv:
-	base = sys.argv[1]
+	base = sys.argv[1].split('/')[0] #and here
 	for url in found_pages:
 		urlfin = base+"/"+url
 		os.system("./crawl.py "+urlfin)
 
 if "-r2" in sys.argv:
-	base = sys.argv[1]
+	base = sys.argv[1].split('/')[0] #and here
 	for url in found_pages:
 		urlfin=base+"/"+url
 		debug(urlfin[-4:-3])#.php/3 letters
@@ -211,7 +211,7 @@ if "-r2" in sys.argv:
 	print("If nothing returned, no dirs where present and not crawled, run with -r1 instead")
 
 if "-r3" in sys.argv:
-	base = sys.argv[1]
+	base = sys.argv[1].split('/')[0] #anddd here
 	for url in found_pages:
 		urlfin=base+"/"+url
 		debug(urlfin[-4:-3])
