@@ -1,0 +1,13 @@
+Help from crawl.py:
+
+
+Usage: ./crawl.py <url> <args>
+
+-d	Enables debug output
+-r(no)	Enables recursion - internal links only - Warning: As dev is lazy, this just recalls the program and iterates through all URLs - be careful - makes a lot of noise. Can be either -r1, -r2 or -r3. Notice: -r2 and -r3 are only useful if there are links to directories. If else the best option is to pick -r1, almost no use cases for -r2,-r3 unless dirs have default docs. 
+-c	Enable common checks - Robots and Sitemap added to url list but no checks on actual existence - Will not do anything without -r1
+Example: ./crawl.py localhost -r1 -c
+
+Version: 1.0
+
+
