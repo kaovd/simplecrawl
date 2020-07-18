@@ -18,8 +18,8 @@ Usage: ./crawl.py <url> <args>
 
 -d	Enables debug output
 -r(no)	Enables recursion - internal links only - Warning: As dev is lazy, this just recalls the program and iterates through all URLs - be careful - makes a lot of noise. Can be either -r1, -r2 or -r3. Notice: -r2 and -r3 are only useful if there are links to directories. If else the best option is to pick -r1, almost no use cases for -r2,-r3 unless dirs have default docs, r2/r3 not fully tested either. 
--c	Enable common checks - Robots and Sitemap added to url list but no checks on actual existence - Will not do anything without -r1
-Example: ./crawl.py localhost -r1
+-c	Enable common checks - Robots and Sitemap added to url list but no checks on actual existence -  Will not do anything without -r1
+Example: ./crawl.py localhost -r1 -clocalhost
 
 Version: 1.0'''
 	return(help)
@@ -104,18 +104,23 @@ for comment in soup.find_all(text=is_comment):
 	found_comments.append(comment)
 
 #Get emails
+debug("\n===Starting Emails===\n")
+
 soupstr = str(soup) #Workaround
 found_emails = re.findall("([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", soupstr)
 
 #Add robots and sitemap
+debug("\n===Starting Checks===\n")
 
-url = sys.argv[1]+"/robots.txt"
+url = sys.argv[1].split('/')[0]+"/robots.txt" #A complete mess, essentially we just use split and take the first part of the url before any /
+debug(url)
 response = http.request('GET', url)
 soup = BeautifulSoup(response.data, 'lxml') #Reqs lxml
 soupstr = str(soup)
 soupstr = soupstr.strip('/p></body></html>')
 
-url2 = sys.argv[1]+"/sitemap.xml"
+url2 = sys.argv[1].split('/')[0]+"/sitemap.xml" #A complete mess, essentially we just use split and take the first part of the url before any /
+debug(url2)
 response2 = http.request('GET', url2)
 soup2 = BeautifulSoup(response2.data, 'lxml') #Reqs lxml
 soupstr2 = str(soup2)
@@ -129,8 +134,9 @@ if "-c" in sys.argv:
 	for url in re.findall("(<loc>.*<\/loc>)", soupstr2):
 		debug(url)
 		url = url.replace('<loc>https://', '') #Parse sitemap and fix sitemap format but lazily
+		debug(url)
 		url = url.replace('<loc>http://', '')
-		url = url.replace(sys.argv[1], '') # Take out hostname
+		url = url.replace(sys.argv[1].split('/')[0], '') # Take out hostname - Reapply the split fix here also
 		url = url.replace('</loc>', '')
 		url = url[1:] #Take out leading /
 		found_pages.append(url) #Finally

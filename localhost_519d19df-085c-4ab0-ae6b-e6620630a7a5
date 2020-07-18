@@ -1,0 +1,64 @@
+Crawl Report for: localhost
+
+===Pages===
+index.php
+team.php
+pypi/register.php
+vendor/jquery/jquery.min.js
+vendor/bootstrap/js/bootstrap.bundle.min.js
+vendor/jquery-easing/jquery.easing.min.js
+js/sb-admin-2.min.js
+vendor/chart.js/Chart.min.js
+js/demo/chart-area-demo.js
+js/demo/chart-pie-demo.js
+===Comments===
+ Custom fonts for this template
+ Custom styles for this template
+ Page Wrapper 
+ Sidebar 
+ Sidebar - Brand 
+ Divider 
+ Nav Item - Dashboard 
+ Divider 
+ Nav Item - Team 
+ Divider 
+ Nav Item - Register 
+ Divider 
+ Sidebar Toggler (Sidebar) 
+ End of Sidebar 
+ Content Wrapper 
+ Main Content 
+ Topbar 
+ Sidebar Toggle (Topbar) 
+ Topbar Navbar 
+ Nav Item - Search Dropdown (Visible Only XS) 
+ Dropdown - Messages 
+ Nav Item - Alerts 
+ Counter - Alerts 
+ Dropdown - Alerts 
+ Nav Item - Messages 
+ Counter - Messages 
+ Dropdown - Messages 
+ Nav Item - User Information 
+ Dropdown - User Information 
+ End of Topbar 
+ Begin Page Content 
+ Content Row 
+ Content Column 
+ Project Card Example 
+ Illustrations 
+ Approach 
+ /.container-fluid 
+ End of Main Content 
+ Footer 
+ End of Footer 
+ End of Content Wrapper 
+ End of Page Wrapper 
+ Scroll to Top Button
+ Logout Modal
+ Bootstrap core JavaScript
+ Core plugin JavaScript
+ Custom scripts for all pages
+ Page level plugins 
+ Page level custom scripts 
+===Emails===
