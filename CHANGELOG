@@ -1,0 +1,2 @@
+1.0 - Inital commit
+1.1 - Added js support and fixed minor issues, will now die if no results rather than write an empty file

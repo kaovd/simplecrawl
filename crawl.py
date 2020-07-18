@@ -64,7 +64,12 @@ debug("\n===Starting URLs===\n")
 
 found_pages = []
 for link in soup.find_all('a'):
-	if "#" in link.get('href')[0]: 
+	try:
+
+		if "#" in link.get('href')[0]:
+			continue
+	except:
+		debug("css ref checker error") #Gen'd as a result of using [0], need to anticipate if it exists first to not crash
 		continue
 	if 'mailto' in link.get('href'):
 		continue # fix weird bug
@@ -75,6 +80,14 @@ for link in soup.find_all('a'):
 	debug(link.get('href')) # Links found
 	#ebug(a)
 	found_pages.append(link.get('href'))
+
+for link in soup.find_all('script'):
+	if link.get('src') in found_pages:
+		debug("Duplicate found - Skipping")
+		continue
+
+	debug(link.get('src')) # Links found
+	found_pages.append(link.get('src'))
 
 # Get all comments
 
@@ -107,7 +120,7 @@ response2 = http.request('GET', url2)
 soup2 = BeautifulSoup(response2.data, 'lxml') #Reqs lxml
 soupstr2 = str(soup2)
 soupstr2 = soupstr2.strip('/p></body></html>')
-
+#Really creative variable names
 
 if "-c" in sys.argv:
 	for url in re.findall("(\/\w.*)", soupstr):
@@ -122,13 +135,30 @@ if "-c" in sys.argv:
 		url = url[1:] #Take out leading /
 		found_pages.append(url) #Finally
 
+
+
+
+
+## Check if we have anything, else die
+if found_pages == [None]: #Sometimes this happens, correct it for checking
+	found_pages = []
+if found_pages == [] and found_comments == [] and found_emails == []:
+	print("Found nothing at "+sys.argv[1]+" - dying")
+	exit()
+
+
+
 # Output
-print("=== Pages === \n")
+print("=== Pages / Scripts === \n")
 print(found_pages)
 print("\n=== Comments ===\n")
 print(found_comments)
 print("\n=== Emails ===\n")
 print(found_emails)
+
+
+
+## File Writer
 
 safeurl = sys.argv[1].replace('/','_')
 writefile = safeurl+"_"+identif
@@ -162,10 +192,15 @@ if "-r2" in sys.argv:
 	base = sys.argv[1]
 	for url in found_pages:
 		urlfin=base+"/"+url
-		debug(urlfin[-4:-3])
+		debug(urlfin[-4:-3])#.php/3 letters
+		debug(urlfin[-3:-2])#.js
 		if urlfin[-4:-3] == ".": #Extremely lazy ext detection
 			debug("Error - Recursing more than once and not a dir")
 			continue
+		if urlfin[-3:-2] == ".": #Fix for .js
+			debug("Error - Recursing more than once and not a dir")
+			continue
+
 		os.system("./crawl.py "+urlfin+" -r1")
 	print("If nothing returned, no dirs where present and not crawled, run with -r1 instead")
 
@@ -174,9 +209,15 @@ if "-r3" in sys.argv:
 	for url in found_pages:
 		urlfin=base+"/"+url
 		debug(urlfin[-4:-3])
+		debug(urlfin[-3:-2])
 		if urlfin[-4:-3] == ".": #Again, lazy ext detection
                         debug("Error - Recursing more than once and not a dir")
                         continue
+
+		if urlfin[-3:-2] == ".": #Fix for .js
+			debug("Error - Recursing more than once and not a dir")
+			continue
+
 		os.system("./crawl.py "+urlfin+" -r2")
 	print("If nothing returned, then no dirs where present and not crawled, run with -r1 instead")
 
