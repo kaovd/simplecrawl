@@ -21,7 +21,7 @@ Usage: ./crawl.py <url> <args>
 -c	Enable common checks - Robots and Sitemap added to url list but no checks on actual existence -  Will not do anything without -r1
 Example: ./crawl.py localhost -r1 -clocalhost
 
-Version: 1.0'''
+Version: 1.3'''
 	return(help)
 
 ## Test for arguments
@@ -72,7 +72,7 @@ for link in soup.find_all('a'):
 		debug("css ref checker error") #Gen'd as a result of using [0], need to anticipate if it exists first to not crash
 		continue
 	if 'mailto' in link.get('href'):
-		continue # fix weird bug
+		continue # we already deal with emails
 	if link.get('href') in found_pages:
 		debug("Duplicate found - Skipping")
 		continue
@@ -191,12 +191,16 @@ print("\nSaved to " + writefile)
 if "-r1" in sys.argv:
 	base = sys.argv[1].split('/')[0] #and here
 	for url in found_pages:
+		if 'http' in url: #Refusing to crawl externally without direction
+			continue
 		urlfin = base+"/"+url
 		os.system("./crawl.py "+urlfin)
 
 if "-r2" in sys.argv:
 	base = sys.argv[1].split('/')[0] #and here
 	for url in found_pages:
+		if 'http' in url: #Refusing to crawl externally without direction
+			continue
 		urlfin=base+"/"+url
 		debug(urlfin[-4:-3])#.php/3 letters
 		debug(urlfin[-3:-2])#.js
@@ -213,6 +217,8 @@ if "-r2" in sys.argv:
 if "-r3" in sys.argv:
 	base = sys.argv[1].split('/')[0] #anddd here
 	for url in found_pages:
+		if 'http' in url: #Refusing to crawl externally without direction
+			continue
 		urlfin=base+"/"+url
 		debug(urlfin[-4:-3])
 		debug(urlfin[-3:-2])

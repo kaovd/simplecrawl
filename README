@@ -8,6 +8,6 @@ Usage: ./crawl.py <url> <args>
 -c	Enable common checks - Robots and Sitemap added to url list but no checks on actual existence - Will not do anything without -r1
 Example: ./crawl.py localhost -r1 -c
 
-Version: 1.0
+Version: 1.3
 
 
